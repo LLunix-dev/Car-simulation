@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <cmath>
-
+//working?
 double angle = 250;
 int speed = 4;
 int angle_left = 0;
