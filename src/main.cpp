@@ -3,9 +3,11 @@
 #include <cmath>
 //working?
 double angle = 250;
-int speed = 4;
+float speed = 4.0;
+float changeSpeed  = 0;
 int angle_left = 0;
 int angle_right = 0;
+float angle_range = 3;
 
 void cleanup(SDL_Texture *imageTexture, SDL_Renderer *renderer, SDL_Window *window)
 {
@@ -35,11 +37,23 @@ void handleInput(SDL_Event event, SDL_Texture *imageTexture, SDL_Renderer *rende
 
             if (event.key.keysym.sym == SDLK_q) 
             {
-                angle_left = 3;
+                angle_left = angle_range;
             }
             if (event.key.keysym.sym == SDLK_e) 
             {
-                angle_right = 3;
+                angle_right = angle_range;
+            }
+            if(event.key.keysym.sym == SDLK_w)
+            {
+                changeSpeed = 0.1;
+            }
+            if(event.key.keysym.sym == SDLK_r)
+            {
+                changeSpeed = -0.1;
+            }
+            if(event.key.keysym.sym == SDLK_SPACE)
+            {
+                changeSpeed = -1;
             }
         }
         if (event.type == SDL_KEYUP)
@@ -51,6 +65,10 @@ void handleInput(SDL_Event event, SDL_Texture *imageTexture, SDL_Renderer *rende
             if (event.key.keysym.sym == SDLK_e) 
             {
                 angle_right = 0;
+            }
+            if(event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_r)
+            {
+                changeSpeed = 0;
             }
         }
     }
@@ -72,7 +90,7 @@ int main()
         return 1;
     }
 
-    SDL_Window *window = SDL_CreateWindow("Car simulation", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_RESIZABLE);
+    SDL_Window *window = SDL_CreateWindow("Car simulation", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_RESIZABLE);
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     SDL_Surface *imageSurface = SDL_LoadBMP("./res/car.bmp");
@@ -112,6 +130,14 @@ int main()
         x += vx;
         y += vy;
 
+        speed += changeSpeed;
+        if(speed < 0.0) speed = 0;
+
+        if(!(speed == 0.0)){
+            angle_range = 2 + (speed / 8.0);
+        }else{
+            angle_range = 0;
+        }
 
         drawRotatedImage(renderer, imageTexture, x, y, 200, 100, angle);
 
