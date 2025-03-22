@@ -21,57 +21,34 @@ void cleanup(SDL_Texture *imageTexture, SDL_Renderer *renderer, SDL_Window *wind
 void handleInput(SDL_Event event, SDL_Texture *imageTexture, SDL_Renderer *renderer, SDL_Window *window)
 {
     while (SDL_PollEvent(&event))
+{
+    if (event.type == SDL_QUIT || 
+        (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE))
     {
-        if (event.type == SDL_QUIT)
+        cleanup(imageTexture, renderer, window);
+    }
+    else if (event.type == SDL_KEYDOWN)
+    {
+        switch (event.key.keysym.sym)
         {
-            cleanup(imageTexture, renderer, window);
-        }
-        else if (event.type == SDL_KEYDOWN)
-        {
-            if (event.key.keysym.sym == SDLK_ESCAPE)
-            {
-                cleanup(imageTexture, renderer, window);
-            }
-
-
-
-            if (event.key.keysym.sym == SDLK_q) 
-            {
-                angle_left = angle_range;
-            }
-            if (event.key.keysym.sym == SDLK_e) 
-            {
-                angle_right = angle_range;
-            }
-            if(event.key.keysym.sym == SDLK_w)
-            {
-                changeSpeed = 0.1;
-            }
-            if(event.key.keysym.sym == SDLK_r)
-            {
-                changeSpeed = -0.1;
-            }
-            if(event.key.keysym.sym == SDLK_SPACE)
-            {
-                changeSpeed = -1;
-            }
-        }
-        if (event.type == SDL_KEYUP)
-        {
-            if (event.key.keysym.sym == SDLK_q) 
-            {
-                angle_left = 0;
-            }
-            if (event.key.keysym.sym == SDLK_e) 
-            {
-                angle_right = 0;
-            }
-            if(event.key.keysym.sym == SDLK_w || event.key.keysym.sym == SDLK_r)
-            {
-                changeSpeed = 0;
-            }
+            case SDLK_q: angle_left = angle_range; break;
+            case SDLK_e: angle_right = angle_range; break;
+            case SDLK_w: changeSpeed = 0.1; break;
+            case SDLK_r: changeSpeed = -0.1; break;
+            case SDLK_SPACE: changeSpeed = -1; break;
         }
     }
+    else if (event.type == SDL_KEYUP)
+    {
+        switch (event.key.keysym.sym)
+        {
+            case SDLK_q: angle_left = 0; break;
+            case SDLK_e: angle_right = 0; break;
+            case SDLK_w:
+            case SDLK_r: changeSpeed = 0; break;
+        }
+    }
+}
 }
 
 
