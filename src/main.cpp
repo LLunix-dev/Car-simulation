@@ -34,7 +34,7 @@ void handleInput(SDL_Event event, SDL_Texture *imageTexture, SDL_Renderer *rende
             case SDLK_q: angle_left = angle_range; break;
             case SDLK_e: angle_right = angle_range; break;
             case SDLK_w: changeSpeed = 0.1; break;
-            case SDLK_r: changeSpeed = -0.1; break;
+            case SDLK_s: changeSpeed = -0.1; break;
             case SDLK_SPACE: changeSpeed = -1; break;
         }
     }
@@ -45,7 +45,7 @@ void handleInput(SDL_Event event, SDL_Texture *imageTexture, SDL_Renderer *rende
             case SDLK_q: angle_left = 0; break;
             case SDLK_e: angle_right = 0; break;
             case SDLK_w:
-            case SDLK_r: changeSpeed = 0; break;
+            case SDLK_s: changeSpeed = 0; break;
         }
     }
 }
